@@ -1,5 +1,6 @@
 export/hl/bin/assets/data/data-goes-here.txt
 export/hl/bin/assets/images/images-go-here.txt
+export/hl/bin/assets/images/player.png
 export/hl/bin/assets/music/music-goes-here.txt
 export/hl/bin/assets/sounds/sounds-go-here.txt
 export/hl/bin/flixel/sounds/beep.ogg
