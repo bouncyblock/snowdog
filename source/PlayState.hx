@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
-import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
@@ -33,6 +32,9 @@ class PlayState extends FlxState
 		map.loadEntities(placeEntities, "entities");
 
 		add(player);
+
+		FlxG.camera.follow(player, TOPDOWN, 1);
+
 		super.create();
 	}
 
