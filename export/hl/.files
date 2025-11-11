@@ -1,4 +1,7 @@
 export/hl/bin/assets/data/data-goes-here.txt
+export/hl/bin/assets/data/room-001.json
+export/hl/bin/assets/data/tiles.png
+export/hl/bin/assets/data/turnBasedRPG.ogmo
 export/hl/bin/assets/images/images-go-here.txt
 export/hl/bin/assets/images/player.png
 export/hl/bin/assets/music/music-goes-here.txt
@@ -9,4 +12,8 @@ export/hl/bin/flixel/fonts/nokiafc22.ttf
 export/hl/bin/flixel/fonts/monsterrat.ttf
 export/hl/bin/flixel/images/ui/button.png
 export/hl/bin/flixel/images/logo/default.png
+export/hl/bin/flixel/images/transitions/circle.png
+export/hl/bin/flixel/images/transitions/diagonal_gradient.png
+export/hl/bin/flixel/images/transitions/diamond.png
+export/hl/bin/flixel/images/transitions/square.png
 export/hl/bin/manifest/default.json
