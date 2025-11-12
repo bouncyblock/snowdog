@@ -2,12 +2,12 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.math.FlxPoint;
+// import flixel.math.FlxPoint;
 
 class Player extends FlxSprite{
     static inline var SPEED:Float = 100;
 
-    public function new(x:Float = 0, y:Float = 0)
+    public function new(x:Float = 0, y:Float = 0) // initializing the player sprite, this is OOP like from playdate
     {
         super(x, y);
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
@@ -27,7 +27,7 @@ class Player extends FlxSprite{
     }
 
     
-    function updateMovement() {
+    function updateMovement() { // updating player movement based on keypresses
         var up:Bool = false;
         var down:Bool = false;
         var left:Bool = false;
@@ -99,7 +99,7 @@ class Player extends FlxSprite{
         }
     }
 
-    override function update(elapsed:Float) {
+    override function update(elapsed:Float) { // main update loop for the player
         updateMovement();
         super.update(elapsed);
     }

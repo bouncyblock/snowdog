@@ -1,3 +1,5 @@
+// main file for running the "scene"
+
 package;
 
 import flixel.FlxG;
@@ -11,7 +13,7 @@ class PlayState extends FlxState
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
 
-	function placeEntities(entitie:EntityData)
+	function placeEntities(entitie:EntityData) // spawning entities on the map where it was defined in Ogmo Editor
 	{
 		if (entitie.name == "player")
 		{
@@ -19,7 +21,7 @@ class PlayState extends FlxState
 		}
 	}
 
-	override public function create()
+	override public function create() // basically _init()
 	{
 		map = new FlxOgmo3Loader(AssetPaths.turnBasedRPG__ogmo, AssetPaths.room_001__json);
 		walls = map.loadTilemap(AssetPaths.tiles__png, "walls");
@@ -37,7 +39,7 @@ class PlayState extends FlxState
 		super.create();
 	}
 
-	override public function update(elapsed:Float)
+	override public function update(elapsed:Float) // the main loop of this scene (not the game, thats handeled in main.hx?)
 	{
 		super.update(elapsed);
 		FlxG.collide(player, walls);
