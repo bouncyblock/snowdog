@@ -1,5 +1,7 @@
 package;
 
+import flixel.system.FlxAssets;
+
 /**
  * Helper class to access asset paths in a type-safe manner.
  * 

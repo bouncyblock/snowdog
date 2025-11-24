@@ -35,7 +35,7 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "6";
+		app.meta["build"] = "8";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "TurnBasedRPG";
 		app.meta["name"] = "TurnBasedRPG";
@@ -215,7 +215,11 @@ class ApplicationMain
 							stage.addChild(current);
 						}
 
+						//this define is for internal use only
+						//note: it may be removed abruptly in the future
+						#if !no_openfl_entry_point
 						new DocumentClass(cast current);
+						#end
 					};
 				}
 				else
