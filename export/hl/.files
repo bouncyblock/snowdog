@@ -2,7 +2,9 @@ export/hl/bin/assets/data/data-goes-here.txt
 export/hl/bin/assets/data/room-001.json
 export/hl/bin/assets/data/tiles.png
 export/hl/bin/assets/data/turnBasedRPG.ogmo
+export/hl/bin/assets/images/boss.png
 export/hl/bin/assets/images/coin.png
+export/hl/bin/assets/images/enemy.png
 export/hl/bin/assets/images/images-go-here.txt
 export/hl/bin/assets/images/player.png
 export/hl/bin/assets/music/music-goes-here.txt
