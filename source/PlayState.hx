@@ -1,6 +1,6 @@
 // main file for running the "scene"
 
-package;
+package; // must have?
 
 import flixel.FlxG;
 import flixel.FlxState;
