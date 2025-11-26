@@ -1,31 +1,36 @@
 -main ApplicationMain 
 --macro keep('IntIterator')
--cp C:/HaxeToolkit/haxe/lib/hscript/2,6,0
--D hscript=2.6.0
+-cp C:/HaxeToolkit/haxe/lib/hscript/2,7,0
+-D hscript=2.7.0
 -cp C:/HaxeToolkit/haxe/lib/flixel-addons/3,3,2
 -D flixel-addons=3.3.2
 -cp C:/HaxeToolkit/haxe/lib/flixel/6,1,1
 -D flixel=6.1.1
 --macro lime._internal.macros.DefineMacro.run()
--cp C:/HaxeToolkit/haxe/lib/lime/8,2,3/src
--D lime=8.2.3
+--macro haxe.macro.Compiler.addMetadata("@:autoBuild(lime._internal.macros.AssetsMacro.embedBytes())", "haxe.io.Bytes")
+-cp C:/HaxeToolkit/haxe/lib/lime/8,3,0/src
+-D lime=8.3.0
 --macro openfl.utils._internal.ExtraParamsMacro.include()
--cp C:/HaxeToolkit/haxe/lib/openfl/9,4,2/src
--D openfl=9.4.2
+-cp C:/HaxeToolkit/haxe/lib/openfl/9,5,0/src
+-D openfl=9.5.0
 -cp source
 -D lime-openal
 -D message.reporting=pretty
 -D native
+-D lime-openalsoft
 -D lime-curl
 -D openfl-native
--D openfl-disable-handle-error
 -D FLX_NO_HEALTH
 -D lime-harfbuzz
 -D lime-threads
--D tools=8.2.3
+-D tools=8.3.0
 -D lime-cairo
+-D lime-threads-deque
+-D FLX_NO_DEBUG
+-D hl-ver=1.14.0
 -D lime-opengl
 -D no-compilation
+-D NAPE_RELEASE_BUILD
 -D FLX_NO_TOUCH
 -D lime-native
 -D lime-vorbis
@@ -34,8 +39,6 @@
 -D desktop
 --remap flash:openfl
 --macro flixel.system.macros.FlxDefines.run()
---connect
-6000
 -cp export/hl/haxe
 -hl export/hl/obj/ApplicationMain.hl
 --macro keep("Main")

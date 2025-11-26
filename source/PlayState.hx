@@ -2,7 +2,6 @@
 
 package;
 
-import openfl.display.TriangleCulling;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -16,6 +15,9 @@ class PlayState extends FlxState
 	var walls:FlxTilemap;
 	var coins:FlxTypedGroup<Coin>;
 	var enemies:FlxTypedGroup<Enemy>;
+	var hud:HUD;
+	var money:Int = 0;
+	var health:Int = 3;
 
 	function placeEntities(entity:EntityData) // spawning entities on the map where it was defined in Ogmo Editor
 	{
@@ -35,10 +37,12 @@ class PlayState extends FlxState
 		}
 	}
 
-	function playerTouchCoin(player:Player, coin:Coin)
+	function playerTouchCoin(player:Player, coin:Coin) // WHY IS THIS HERE AND NOT THE PLAYER CLASS?
 	{
 		if (player.alive && player.exists && coin.alive && coin.exists)
 		{
+			money++;
+			hud.updateHUD(health, money);
 			coin.kill();
 		}
 	}
@@ -59,6 +63,10 @@ class PlayState extends FlxState
 		// grrrrr
 		enemies = new FlxTypedGroup<Enemy>();
 		add(enemies);
+
+		// hud
+		hud = new HUD();
+		add(hud);
 
 		player = new Player();
 		map.loadEntities(placeEntities, "entities");

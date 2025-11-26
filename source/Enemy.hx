@@ -1,9 +1,9 @@
 package;
 
-import flixel.math.FlxVelocity;
 import flixel.FlxG;
-import flixel.math.FlxPoint;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.math.FlxVelocity;
 
 enum EnemyType {
     REGULAR;
@@ -14,7 +14,7 @@ class Enemy extends FlxSprite {
     static inline var WALK_SPEED:Float = 40;
     static inline var CHASE_SPEED:Float = 70;
 
-    // fsr shit!
+	// fsm shit!
 
     var brain:FSM;
     var idleTimer:Float;
