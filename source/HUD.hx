@@ -11,7 +11,7 @@ using flixel.util.FlxSpriteUtil;
 
 class HUD extends FlxTypedGroup<FlxSprite>
 {
-    var background:FlxSprite;
+	var background:FlxSprite; // peak vars
     var healthCounter:FlxText;
     var moneyCounter:FlxText;
     var healthIcon:FlxSprite;
@@ -20,7 +20,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
     public function new()
     {
         super();
-        background = new FlxSprite().makeGraphic(FlxG.width, 20, FlxColor.BLACK);
+		background = new FlxSprite().makeGraphic(FlxG.width, 20, FlxColor.BLACK); // hell of a block of text just for some simple ui lmao
         background.drawRect(0, 19, FlxG.width, 1, FlxColor.WHITE);
         healthCounter = new FlxText(16, 2, 0, "3 / 3", 8);
         healthCounter.setBorderStyle(SHADOW, FlxColor.GRAY, 1, 1);

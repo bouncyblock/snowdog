@@ -20,17 +20,16 @@
 -D lime-openalsoft
 -D lime-curl
 -D openfl-native
+-D openfl-disable-handle-error
 -D FLX_NO_HEALTH
 -D lime-harfbuzz
 -D lime-threads
 -D tools=8.3.0
 -D lime-cairo
 -D lime-threads-deque
--D FLX_NO_DEBUG
 -D hl-ver=1.14.0
 -D lime-opengl
 -D no-compilation
--D NAPE_RELEASE_BUILD
 -D FLX_NO_TOUCH
 -D lime-native
 -D lime-vorbis
@@ -39,6 +38,8 @@
 -D desktop
 --remap flash:openfl
 --macro flixel.system.macros.FlxDefines.run()
+--connect
+6000
 -cp export/hl/haxe
 -hl export/hl/obj/ApplicationMain.hl
 --macro keep("Main")
