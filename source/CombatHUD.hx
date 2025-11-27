@@ -198,7 +198,7 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 		wait = true;
 		results.text = "";
 		pointer.visible = false;
-		repsults.visible = false;
+		results.visible = false;
 		outcome = NONE;
 		selected = FIGHT;
 		movePointer();
@@ -327,7 +327,7 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 				{
 					damages[1].text = "1";
 					FlxTween.tween(enemySprite, {x: enemySprite.x + 4}, 0.1, {
-						onComplete: Function(_)
+						onComplete: function(_)
 						{
 							FlxTween.tween(enemySprite, {x: enemySprite.x - 4}, 0.1);
 						}
@@ -368,13 +368,13 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 					fledSound.play();
 					results.visible = true;
 					results.alpha = 0;
-					FlxTween.tween(results, {alpha: 1}, .66, {ease: FlxEase.circOut}, updateDamageY);
+					FlxTween.tween(results, {alpha: 1}, .66, {ease: FlxEase.circOut, onComplete: doneResultsIn});
 				}
                 else
                 {
                     enemyAttack();
                     FlxTween.num(damages[0].y, damages[0].y -12, 1, {ease: FlxEase.circOut}, updateDamageY);
-                    FlxTween.num(0, 1, .2, {ease: FlxEase.CircInOut, onCOmplete: doneDamageIn}, updateDamageAlpha);
+                    FlxTween.num(0, 1, .2, {ease: FlxEase.circInOut, onComplete: doneDamageIn}, updateDamageAlpha);
                 }
 		}
 
@@ -420,12 +420,12 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 
     function updateDamageAlpha(damageAlpha:Float)
     {
-        damages[0].alpha = damage[1].alpha = damageAlpha;
+        damages[0].alpha = damages[1].alpha = damageAlpha;
     }
 
     // finish fading in
 
-    functiono doneDamageIn(_)
+    function doneDamageIn(_)
     {
         FlxTween.num(1, 0, .66, {ease: FlxEase.circInOut, startDelay: 1, onComplete: doneDamageOut}, updateDamageAlpha);
     }
@@ -458,7 +458,7 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
         else if (enemyHealth <= 0)
         {
             outcome = VICTORY;
-            windSound.play();
+            winSound.play();
             results.text = "VICTORY!";
             results.visible = true;
             results.alpha = 0;
