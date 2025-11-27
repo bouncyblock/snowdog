@@ -1,6 +1,5 @@
 package;
 
-import haxe.macro.Expr.EFieldKind;
 import flash.filters.ColorMatrixFilter;
 import flash.geom.Matrix;
 import flixel.FlxG;
@@ -14,6 +13,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
+import haxe.macro.Expr.EFieldKind;
+import lime.media.FlashAudioContext;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -165,6 +166,309 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 
     public function initCombat(playerHealth:Int, enemy:Enemy)
     {
-        // some code should go here!!!!!
+		screen.drawFrame();
+		var screenPixels = screen.framePixels;
+
+		if (FlxG.renderBlit)
+			screenPixels.copyPixels(FlxG.camera.buffer, FlxG.camera.buffer.rect, new Point());
+		else
+			screenPixels.draw(FlxG.camera.canvas, new Matrix(1, 0, 0, 1, 0, 0));
+
+		var rc:Float = 1 / 3;
+		var gc:Float = 1 / 2;
+		var bc:Float = 1 / 6;
+		screenPixels.applyFilter(screenPixels, screenPixels.rect, new Point(), new ColorMatrixFilter([
+			rc, gc, bc, 0, 0,
+			rc, gc, bc, 0, 0,
+			rc, gc, bc, 0, 0,
+			 0,  0,  0, 1, 0
+		]));
+
+		combatSound.play();
+		this.playerHealth = playerHealth;
+		this.enemy = enemy;
+
+		updatePlayerHealth();
+
+		// setup enemy sprite
+		enemyMaxHealth = enemyHealth = if (enemy.type == REGULAR) 2 else 4; // health
+		enemyHealthBar.value = 100; // full bar
+
+		// init so nothing looks weird
+		wait = true;
+		results.text = "";
+		pointer.visible = false;
+		repsults.visible = false;
+		outcome = NONE;
+		selected = FIGHT;
+		movePointer();
+
+		visible = true;
+
+		// fade in combat
+		FlxTween.num(0, 1, .66, {ease: FlxEase.circOut, onComplete: finishFadeIn}, updateAlpha);
+	}
+
+	// called by tween, fade in all hud elements (or out i guess)
+	function updateAlpha(alpha:Float)
+	{
+		this.alpha = alpha;
+		forEach(function(sprite) sprite.alpha = alpha);
+	}
+
+	// set hud to active
+
+	function finishFadeIn(_)
+	{
+		active = true;
+		wait = false;
+		pointer.visible = true;
+		selectSound.play();
+	}
+
+	// set hud to hidden!
+	function finishFadeOut(_)
+	{
+		active = false;
+		visible = false;
+	}
+
+	// change player health text on screen
+
+	function updatePlayerHealth()
+	{
+		playerHealthCounter.text = playerHealth + " / 3";
+		playerHealthCounter.x = playerSprite.x + 4 - (playerHealthCounter.width / 2);
+	}
+
+	override public function update(elapsed:Float)
+	{
+		if (!wait) // if waiting, dont do this
+		{
+			updateKeyboardInput();
+			updateTouchInput();
+		}
+		super.update(elapsed);
+	}
+
+	function updateKeyboardInput()
+	{
+		#if FLX_KEYBOARD
+		var up:Bool = false;
+		var down:Bool = false;
+		var fire:Bool = false; // fire?
+
+		if (FlxG.keys.anyJustReleased([SPACE, X, ENTER]))
+		{
+			fire = true;
+		}
+		else if (FlxG.keys.anyJustReleased([W, UP]))
+		{
+			up = true;
+		}
+		else if (FlxG.keys.anyJustReleased([S, DOWN]))
+		{
+			down = true;
+		}
+
+		if (fire)
+		{
+			selectSound.play();
+			makeChoice(); // process choice
+		}
+		else if (up || down)
+		{
+			// move cursor up or down
+			selected = if (selected == FIGHT) FLEE else FIGHT;
+			selectSound.play();
+			movePointer();
+		}
+		#end
+	}
+
+	function updateTouchInput()
+	{
+		#if FLX_TOUCH
+		for (touch in FlxG.touches.justReleased())
+		{
+			for (choice in choices.keys())
+			{
+				var text = chioces[choice];
+				if (touch.overlaps(text))
+				{
+					selectSound.play();
+					selected = choice;
+					movePointer();
+					makeChoice();
+					return;
+				}
+			}
+		}
+		#end
+	}
+
+	// moves pointer to current choice
+
+	function movePointer()
+	{
+		pointer.y = choices[selected].y + (choices[selected].height / 2) - 8;
+	}
+
+	function makeChoice()
+	{
+		pointer.visible = false;
+		switch (selected)
+		{
+			case FIGHT:
+				// if fight was picked
+				// playersprite attacks first
+				// 85% chance of hitting
+				if (FlxG.random.bool(85))
+				{
+					damages[1].text = "1";
+					FlxTween.tween(enemySprite, {x: enemySprite.x + 4}, 0.1, {
+						onComplete: Function(_)
+						{
+							FlxTween.tween(enemySprite, {x: enemySprite.x - 4}, 0.1);
+						}
+					});
+					hurtSound.play();
+					enemyHealth--;
+					enemyHealthBar.value = enemyHealth / enemyMaxHealth * 100; // change health bar
+				}
+				else
+				{
+					// change our damage text, we missed!
+					damages[1].text = "MISS!";
+					missSound.play();
+				}
+
+				// damage text over enemy sprite
+				damages[1].x = enemySprite.x + 2 - (damages[1].width / 2);
+				damages[1].y = enemySprite.y + 4 - (damages[1].height / 2);
+
+				// if still alive, attack back (enemy)
+
+				if (enemyHealth > 0)
+				{
+					enemyAttack();
+				}
+
+				// fade in and float up
+				FlxTween.num(damages[0].y, damages[0].y - 12, 1, {ease: FlxEase.circOut}, updateDamageY);
+				FlxTween.num(0, 1, .2, {ease: FlxEase.circInOut, onComplete: doneDamageIn}, updateDamageAlpha);
+
+			case FLEE:
+				// 50/50 to escape
+				if (FlxG.random.bool(50))
+				{
+					// success
+					outcome = ESCAPE;
+					results.text = "ESCAPED!";
+					fledSound.play();
+					results.visible = true;
+					results.alpha = 0;
+					FlxTween.tween(results, {alpha: 1}, .66, {ease: FlxEase.circOut}, updateDamageY);
+				}
+                else
+                {
+                    enemyAttack();
+                    FlxTween.num(damages[0].y, damages[0].y -12, 1, {ease: FlxEase.circOut}, updateDamageY);
+                    FlxTween.num(0, 1, .2, {ease: FlxEase.CircInOut, onCOmplete: doneDamageIn}, updateDamageAlpha);
+                }
+		}
+
+        wait = true;
+    }
+
+    function enemyAttack()
+    {
+        // 30% chance to hit
+        if (FlxG.random.bool(30))
+        {
+            // if we hit
+            FlxG.camera.flash(FlxColor.WHITE, .2);
+            FlxG.camera.shake(0.01, 0.2);
+            hurtSound.play();
+            damages[0].text = "1";
+            playerHealth--;
+            updatePlayerHealth();
+        }
+        else
+        {
+            // if miss
+            damages[0].text = "MISS!";
+            missSound.play();
+        }
+
+        // setup combat text to show on player sprite
+
+        damages[0].x = playerSprite.x + 2 - (damages[0].width / 2);
+        damages[0].y = playerSprite.y + 4 - (damages[0].height / 2);
+        damages[0].alpha = 0;
+        damages[0].visible = true;
+    }
+
+    // move damage displays
+
+    function updateDamageY(damageY:Float)
+    {
+        damages[0].y = damages[1].y = damageY;
+    }
+
+    // fade in out
+
+    function updateDamageAlpha(damageAlpha:Float)
+    {
+        damages[0].alpha = damage[1].alpha = damageAlpha;
+    }
+
+    // finish fading in
+
+    functiono doneDamageIn(_)
+    {
+        FlxTween.num(1, 0, .66, {ease: FlxEase.circInOut, startDelay: 1, onComplete: doneDamageOut}, updateDamageAlpha);
+    }
+
+    // done results in
+    function doneResultsIn(_)
+    {
+        FlxTween.num(1, 0, .66, {ease: FlxEase.circOut, onComplete: finishFadeOut, startDelay: 1}, updateAlpha);
+    }
+
+    // DONE DAMAGE OUT
+    // when damage texts finish fading out, check what do next....
+
+    function doneDamageOut(_)
+    {
+        damages[0].visible = false;
+        damages[1].visible = false;
+        damages[0].text = "";
+        damages[1].text = "";
+
+        if (playerHealth <= 0)
+        {
+            outcome = DEFEAT;
+            loseSound.play();
+            results.text = "DEFEAT";
+            results.visible = true;
+            results.alpha = 0;
+            FlxTween.tween(results, {alpha: 1}, .66, {ease: FlxEase.circInOut, onComplete: doneResultsIn});
+        }
+        else if (enemyHealth <= 0)
+        {
+            outcome = VICTORY;
+            windSound.play();
+            results.text = "VICTORY!";
+            results.visible = true;
+            results.alpha = 0;
+            FlxTween.tween(results, {alpha: 1}, .66, {ease: FlxEase.circInOut, onComplete: doneResultsIn});
+        }
+        else
+        {
+            // next round
+            wait = false;
+            pointer.visible = true;
+        }
     }
 }
