@@ -18,6 +18,8 @@ class PlayState extends FlxState
 	var hud:HUD;
 	var money:Int = 0;
 	var health:Int = 3;
+	var inCombat:Bool = false;
+	var combatHud:CombatHUD;
 
 	function placeEntities(entity:EntityData) // spawning entities on the map where it was defined in Ogmo Editor
 	{
@@ -68,6 +70,10 @@ class PlayState extends FlxState
 		hud = new HUD();
 		add(hud);
 
+		// combat hud
+		combatHud = new CombatHUD();
+		add(combatHud);
+
 		player = new Player();
 		map.loadEntities(placeEntities, "entities");
 		add(player);
@@ -80,10 +86,34 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float) // the main loop of this scene (not the game, thats handeled in main.hx?)
 	{
 		super.update(elapsed);
-		FlxG.collide(player, walls);
-		FlxG.overlap(player, coins, playerTouchCoin);
-		FlxG.collide(enemies, walls);
-		enemies.forEachAlive(checkEnemyVision);
+		if (inCombat)
+		{
+			if (!combatHud.visible)
+			{
+				health = combatHud.playerHealth;
+				hud.updateHUD(health, money);
+				if (combatHud.outcome == VICTORY)
+				{
+					combatHud.enemy.kill();
+				}
+				else
+				{
+					combatHud.enemy.flicker();
+				}
+				inCombat = false;
+				player.active = true;
+				enemies.active = true;
+			}
+		}
+		else
+		{
+			FlxG.collide(player, walls);
+			FlxG.overlap(player, coins, playerTouchCoin);
+			FlxG.collide(enemies, walls);
+			enemies.forEachAlive(checkEnemyVision);
+			FlxG.overlap(player, enemies, playerTouchEnemy);
+		}
+		
 	}
 
 	function checkEnemyVision(enemy:Enemy) // basically jsut an enemy function hiding in playstate

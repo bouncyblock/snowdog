@@ -122,6 +122,18 @@ class Enemy extends FlxSprite {
             FlxVelocity.moveTowardsPoint(this, playerPosition, CHASE_SPEED);
         }
     }
+	public function changeType(type:EnemyType)
+	{
+		if (this.type != type)
+		{
+			this.type = type;
+			var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
+			loadGraphic(graphic, true, 16, 16);
+		}
+	}
+
+
+
 }
 
 class FSM
