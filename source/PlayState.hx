@@ -104,7 +104,9 @@ class PlayState extends FlxState
 				}
 				inCombat = false;
 				player.active = true;
+				player.visible = true;
 				enemies.active = true;
+				enemies.visible = true;
 			}
 		}
 		else
@@ -142,7 +144,9 @@ class PlayState extends FlxState
 	{
 		inCombat = true;
 		player.active = false;
+		player.visible = false; // hmmmm...
 		enemies.active = false;
+		enemies.visible = false;
 		combatHud.initCombat(health, enemy);
 	}
 }
