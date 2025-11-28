@@ -293,7 +293,7 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
 		{
 			for (choice in choices.keys())
 			{
-				var text = chioces[choice];
+				var text = choices[choice];
 				if (touch.overlaps(text))
 				{
 					selectSound.play();
