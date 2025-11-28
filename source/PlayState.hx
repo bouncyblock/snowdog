@@ -8,6 +8,8 @@ import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 
+using flixel.util.FlxSpriteUtil;
+
 class PlayState extends FlxState
 {
 	var player:Player;
@@ -127,5 +129,20 @@ class PlayState extends FlxState
 		{
 			enemy.seesPlayer = false;
 		}
+	}
+	function playerTouchEnemy(player:Player, enemy:Enemy)
+	{
+		if (player.alive && player.exists && enemy.alive && enemy.exists && !enemy.isFlickering())
+		{
+			startCombat(enemy);
+		}
+	}
+
+	function startCombat(enemy:Enemy)
+	{
+		inCombat = true;
+		player.active = false;
+		enemies.active = false;
+		combatHud.initCombat(health, enemy);
 	}
 }

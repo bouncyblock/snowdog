@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 
+using flixel.util.FlxSpriteUtil;
+
 enum EnemyType {
     REGULAR;
     BOSS;
@@ -23,7 +25,7 @@ class Enemy extends FlxSprite {
     public var playerPosition:FlxPoint;
 
 
-    var type:EnemyType;
+	public var type:EnemyType;
 
     public function new(x:Float, y:Float, type:EnemyType) {
         super(x, y);
@@ -51,6 +53,10 @@ class Enemy extends FlxSprite {
 
     override public function update(elapsed:Float)
     {
+		if (this.isFlickering())
+			return;
+
+
         var action = "idle";
         if (velocity.x != 0 || velocity.y != 0)
 		{

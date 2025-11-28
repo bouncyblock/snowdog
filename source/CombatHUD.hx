@@ -2,6 +2,7 @@ package;
 
 import flash.filters.ColorMatrixFilter;
 import flash.geom.Matrix;
+import flash.geom.Point;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.effects.chainable.FlxEffectSprite;
@@ -13,8 +14,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
-import haxe.macro.Expr.EFieldKind;
-import lime.media.FlashAudioContext;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -154,7 +153,7 @@ class CombatHUD extends FlxTypedGroup<FlxSprite>
         active = false;
         visible = false;
 
-        fledSound = FlxG.sound.load(AssetPaths.fled__wav);
+		fledSound = FlxG.sound.load(AssetPaths.fled__wav);
 		hurtSound = FlxG.sound.load(AssetPaths.hurt__wav);
 		loseSound = FlxG.sound.load(AssetPaths.lose__wav);
 		missSound = FlxG.sound.load(AssetPaths.miss__wav);
