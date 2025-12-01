@@ -2,6 +2,7 @@
 
 package; // must have?
 
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -22,6 +23,8 @@ class PlayState extends FlxState
 	var health:Int = 3;
 	var inCombat:Bool = false;
 	var combatHud:CombatHUD;
+	var ending:Bool;
+	var won:Bool;
 
 	function placeEntities(entity:EntityData) // spawning entities on the map where it was defined in Ogmo Editor
 	{
@@ -88,8 +91,25 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float) // the main loop of this scene (not the game, thats handeled in main.hx?)
 	{
 		super.update(elapsed);
+
+		if (ending)
+		{
+			return;
+		}
+
+
+
 		if (inCombat)
 		{
+			health = combatHud.playerHealth;
+			hud.updateHUD(health, money);
+			if (combatHud.outcome == DEFEAT)
+			{
+				ending = true;
+				FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
+			}
+
+
 			if (!combatHud.visible)
 			{
 				health = combatHud.playerHealth;
