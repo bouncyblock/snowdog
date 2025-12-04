@@ -99,7 +99,7 @@ class PlayState extends FlxState
 
 
 
-		if (inCombat)
+		if (!combatHud.visible)
 		{
 			health = combatHud.playerHealth;
 			hud.updateHUD(health, money);
@@ -108,20 +108,23 @@ class PlayState extends FlxState
 				ending = true;
 				FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
 			}
-
-
-			if (!combatHud.visible)
+			else
 			{
-				health = combatHud.playerHealth;
-				hud.updateHUD(health, money);
 				if (combatHud.outcome == VICTORY)
 				{
 					combatHud.enemy.kill();
+					if (combatHud.enemy.type == BOSS)
+					{
+						won = true;
+						ending = true;
+						FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
+					}
 				}
 				else
 				{
 					combatHud.enemy.flicker();
 				}
+
 				inCombat = false;
 				player.active = true;
 				player.visible = true;
@@ -138,6 +141,11 @@ class PlayState extends FlxState
 			FlxG.overlap(player, enemies, playerTouchEnemy);
 		}
 		
+	}
+
+	function doneFadeOut()
+	{
+		FlxG.switchState(new GameOverState(won, money));
 	}
 
 	function checkEnemyVision(enemy:Enemy) // basically jsut an enemy function hiding in playstate
