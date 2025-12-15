@@ -2,12 +2,12 @@
 
 package; // must have?
 
-import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxColor;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -122,7 +122,7 @@ class PlayState extends FlxState
 				}
 				else
 				{
-					combatHud.enemy.flicker();
+					// combatHud.enemy.flicker();
 				}
 
 				inCombat = false;
@@ -131,14 +131,16 @@ class PlayState extends FlxState
 				enemies.active = true;
 				enemies.visible = true;
 			}
-		}
-		else
-		{
+			// collisions and overlaps while NOT in combat
 			FlxG.collide(player, walls);
 			FlxG.overlap(player, coins, playerTouchCoin);
 			FlxG.collide(enemies, walls);
 			enemies.forEachAlive(checkEnemyVision);
 			FlxG.overlap(player, enemies, playerTouchEnemy);
+		}
+		else
+		{
+			// In-combat: collisions are disabled; combat HUD handles combat flow
 		}
 		
 	}
