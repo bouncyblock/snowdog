@@ -3,6 +3,7 @@ export/hl/bin/assets/data/room-001.json
 export/hl/bin/assets/data/tiles.png
 export/hl/bin/assets/data/turnBasedRPG.ogmo
 export/hl/bin/assets/images/boss.png
+export/hl/bin/assets/images/button.png
 export/hl/bin/assets/images/coin.png
 export/hl/bin/assets/images/enemy.png
 export/hl/bin/assets/images/health.png
