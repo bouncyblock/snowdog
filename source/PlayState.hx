@@ -8,6 +8,7 @@ import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
+import flixel.util.FlxColor;
 
 using flixel.util.FlxSpriteUtil;
 
