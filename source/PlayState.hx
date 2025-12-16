@@ -98,51 +98,58 @@ class PlayState extends FlxState
 		}
 
 
-
-		if (!combatHud.visible)
+		if (inCombat)
 		{
-			health = combatHud.playerHealth;
-			hud.updateHUD(health, money);
-			if (combatHud.outcome == DEFEAT)
+			if (!combatHud.visible)
 			{
-				ending = true;
-				FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
-			}
-			else
-			{
-				if (combatHud.outcome == VICTORY)
+				health = combatHud.playerHealth;
+				hud.updateHUD(health, money);
+				if (combatHud.outcome == DEFEAT)
 				{
-					combatHud.enemy.kill();
-					if (combatHud.enemy.type == BOSS)
-					{
-						won = true;
-						ending = true;
-						FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
-					}
+					ending = true;
+					FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
 				}
 				else
 				{
-					// combatHud.enemy.flicker();
-				}
+					if (combatHud.outcome == VICTORY)
+					{
+						combatHud.enemy.kill();
+						if (combatHud.enemy.type == BOSS)
+						{
+							won = true;
+							ending = true;
+							FlxG.camera.fade(FlxColor.BLACK, 0.33, false, doneFadeOut);
+						}
+					}
+					else
+					{
+						// combatHud.enemy.flicker();
+					}
 
-				inCombat = false;
-				player.active = true;
-				player.visible = true;
-				enemies.active = true;
-				enemies.visible = true;
+					inCombat = false;
+					player.active = true;
+					player.visible = true;
+					enemies.active = true;
+					enemies.visible = true;
+				}
+				// collisions and overlaps while NOT in combat
+				FlxG.collide(player, walls);
+				FlxG.overlap(player, coins, playerTouchCoin);
+				FlxG.collide(enemies, walls);
+				enemies.forEachAlive(checkEnemyVision);
+				FlxG.overlap(player, enemies, playerTouchEnemy);
 			}
-			// collisions and overlaps while NOT in combat
+			
+		} 
+		else
+		{
 			FlxG.collide(player, walls);
 			FlxG.overlap(player, coins, playerTouchCoin);
 			FlxG.collide(enemies, walls);
 			enemies.forEachAlive(checkEnemyVision);
 			FlxG.overlap(player, enemies, playerTouchEnemy);
-		}
-		else
-		{
 			// In-combat: collisions are disabled; combat HUD handles combat flow
 		}
-		
 	}
 
 	function doneFadeOut()
