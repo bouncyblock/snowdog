@@ -56,7 +56,9 @@ function clickPlay()
 
 function clickExit()
 {
+    #if desktop
     Sys.exit(0);
+    #end
 }
 
 function clickOptions()
