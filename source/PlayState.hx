@@ -108,21 +108,22 @@ class PlayState extends FlxState
 
 		FlxG.camera.follow(player, TOPDOWN, 1);
 
-		bgMusic = FlxG.sound.load(AssetPaths.music__mp3, 1, true);
-		add(bgMusic);
-		
+		// load and start background music if available
+		if (FlxG.sound.music == null) // don't restart the music if it's already playing
+		{
+			FlxG.sound.playMusic(AssetPaths.something__ogg, 1, true);
+		}
 
 		super.create();
 	}
 
-	override public function update(elapsed:Float) // the main loop of this scene (not the game, thats handeled in main.hx?)
+	override public function update(elapsed:Float) // the main loop of this scene (not the game, that's handled in main.hx?)
 	{
 		super.update(elapsed);
 
-		if (!bgMusic.playing) bgMusic.play();
-		if (ending)
-		{
-			return;
+		// ensure music is playing (guard in case load failed)
+		if (FlxG.sound.music != null && !FlxG.sound.music.playing) {
+			FlxG.sound.music.play();
 		}
 
 

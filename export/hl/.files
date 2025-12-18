@@ -13,12 +13,14 @@ export/hl/bin/assets/images/images-go-here.txt
 export/hl/bin/assets/images/player.png
 export/hl/bin/assets/images/pointer.png
 export/hl/bin/assets/music/music-goes-here.txt
-export/hl/bin/assets/music/music.mp3
+export/hl/bin/assets/music/something.mp3
+export/hl/bin/assets/music/something.ogg
 export/hl/bin/assets/sounds/combat.wav
 export/hl/bin/assets/sounds/fled.wav
 export/hl/bin/assets/sounds/hurt.wav
 export/hl/bin/assets/sounds/lose.wav
 export/hl/bin/assets/sounds/miss.wav
+export/hl/bin/assets/sounds/music.mp3
 export/hl/bin/assets/sounds/select.wav
 export/hl/bin/assets/sounds/sounds-go-here.txt
 export/hl/bin/assets/sounds/win.wav
