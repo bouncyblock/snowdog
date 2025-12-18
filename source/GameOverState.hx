@@ -32,7 +32,7 @@ class GameOverState extends FlxState
         titleText.screenCenter(FlxAxes.X);
         add(titleText);
 
-        messageText = new FlxText(0, (FlxG.height / 2) - 18, 0, "Final Score:", 8);
+        messageText = new FlxText(0, (FlxG.height / 2) - 18, 0, "Final Score:" + score, 8);
         messageText.alignment = CENTER;
         messageText.screenCenter(FlxAxes.X);
         add(messageText);

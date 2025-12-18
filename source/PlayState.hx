@@ -152,7 +152,7 @@ class PlayState extends FlxState
 					}
 					else
 					{
-						// combatHud.enemy.flicker();
+						combatHud.enemy.flicker();
 					}
 
 					inCombat = false;

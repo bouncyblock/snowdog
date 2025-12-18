@@ -27,7 +27,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
         moneyCounter = new FlxText(0, 2, 0, "0", 8);
         moneyCounter.setBorderStyle(SHADOW, FlxColor.GRAY, 1, 1);
         healthIcon = new FlxSprite(4, healthCounter.y + (healthCounter.height/2) - 4, AssetPaths.health__png);
-        moneyIcon = new FlxSprite(FlxG.width - 12, moneyCounter.y + (moneyCounter.height/2) - 4, AssetPaths.coin__png);
+        moneyIcon = new FlxSprite(FlxG.width - 20, moneyCounter.y + (moneyCounter.height/2) - 8, AssetPaths.coin__png);
         moneyCounter.alignment = RIGHT;
         moneyCounter.x = moneyIcon.x - moneyCounter.width - 4;
         add(background);
