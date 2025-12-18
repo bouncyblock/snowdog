@@ -1,6 +1,6 @@
 # this is snowdog, a simple RPG made in haxe to learn haxe.
 #### Made for the YSWS Dummies V2 (Hack Club)
-[](https://hackatime-badge.hackclub.com/U09GRHV7Y80/TurnBasedRPG) + [](https://hackatime-badge.hackclub.com/U09GRHV7Y80/snowdog)
+![Hackatime Badge](https://hackatime-badge.hackclub.com/U09GRHV7Y80/TurnBasedRPG) + ![Hackatime Badge](https://hackatime-badge.hackclub.com/U09GRHV7Y80/snowdog)
 ### Controls:
 Arrow Keys for movement
 Enter for selection
