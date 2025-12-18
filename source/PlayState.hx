@@ -3,6 +3,7 @@
 package; // must have?
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
@@ -17,6 +18,7 @@ class PlayState extends FlxState
 	var player:Player;
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
+	var bg:FlxSprite;
 	var coins:FlxTypedGroup<Coin>;
 	var enemies:FlxTypedGroup<Enemy>;
 	var hud:HUD;
@@ -58,10 +60,28 @@ class PlayState extends FlxState
 	override public function create() // basically _init()
 	{
 		map = new FlxOgmo3Loader(AssetPaths.turnBasedRPG__ogmo, AssetPaths.room_001__json);
-		walls = map.loadTilemap(AssetPaths.tiles__png, "walls");
+		walls = map.loadTilemap(AssetPaths.tilemap_packed__png, "walls");
 		walls.follow();
-		walls.setTileProperties(1, NONE);
-		walls.setTileProperties(2, ANY);
+		// create a white background that covers the map and at least the screen
+		var bgWidth:Int = Std.int(Math.max(walls.width, FlxG.width));
+		var bgHeight:Int = Std.int(Math.max(walls.height, FlxG.height));
+
+		bg = new FlxSprite(0, 0);
+		bg.makeGraphic(bgWidth, bgHeight, FlxColor.WHITE);
+		add(bg);
+
+		// 11 * 11 tiles, each 16x16
+		// loop through tiles and set properties
+
+		for (i in 0...132)
+		{
+			if (i != 2 && i != 3)
+			{
+				walls.setTileProperties(i, ANY);
+			}
+		}
+		walls.setTileProperties(2, NONE);
+		walls.setTileProperties(3, NONE);
 		add(walls);
 
 		// gotta have coins!

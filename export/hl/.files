@@ -1,5 +1,6 @@
 export/hl/bin/assets/data/data-goes-here.txt
 export/hl/bin/assets/data/room-001.json
+export/hl/bin/assets/data/tilemap_packed.png
 export/hl/bin/assets/data/tiles.png
 export/hl/bin/assets/data/turnBasedRPG.ogmo
 export/hl/bin/assets/images/boss.png
