@@ -24,6 +24,9 @@ IF YOU ARE BUILDING FROM SOURCE, make sure you have the following installed with
 flixel
 flixel-addons
 
+I have not yet compiled for HTML5 because I don't know what this screen wants from me: 
+<img width="1220" height="906" alt="Screenshot 2025-12-18 031655" src="https://github.com/user-attachments/assets/84810cf4-58a2-4476-9164-3c6cf9a3d836" />
+
 I'd also recommend compiling it with Lime as that's what I used for testing the game.
 
 ### Production Details:
