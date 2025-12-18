@@ -1,10 +1,13 @@
 package;
 
-import haxe.display.Display.DisplayItemKind;
-import flixel.text.FlxText;
+import Reflect;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
+import haxe.display.Display.DisplayItemKind;
 
 class MenuState extends FlxState
 {
@@ -12,10 +15,14 @@ class MenuState extends FlxState
     var exitButton:FlxButton;
     var titleText:FlxText;
     var optionsButton:FlxButton;
+	var bg:FlxSprite;
 
 
     override public function create() // creating the play button!
 	{
+		// background image for menu (assets/images/0.png)
+
+
 		titleText = new FlxText(20, 0, 0, "snowdog", 22);
         titleText.alignment = CENTER;
         titleText.screenCenter(X);

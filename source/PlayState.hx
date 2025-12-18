@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
+import flixel.sound.FlxSound;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
 import flixel.util.FlxColor;
@@ -19,6 +20,7 @@ class PlayState extends FlxState
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
 	var bg:FlxSprite;
+	var bgMusic:FlxSound;
 	var coins:FlxTypedGroup<Coin>;
 	var enemies:FlxTypedGroup<Enemy>;
 	var hud:HUD;
@@ -106,6 +108,10 @@ class PlayState extends FlxState
 
 		FlxG.camera.follow(player, TOPDOWN, 1);
 
+		bgMusic = FlxG.sound.load(AssetPaths.music__mp3, 1, true);
+		add(bgMusic);
+		
+
 		super.create();
 	}
 
@@ -113,6 +119,7 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
+		if (!bgMusic.playing) bgMusic.play();
 		if (ending)
 		{
 			return;
