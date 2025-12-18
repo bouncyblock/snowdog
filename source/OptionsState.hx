@@ -1,9 +1,9 @@
 package;
 
-import flixel.ui.FlxBar;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 import flixel.ui.FlxButton;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
@@ -34,26 +34,28 @@ class OptionsState extends FlxState
         volumeText.screenCenter(FlxAxes.X);
         add(volumeText);
 
-        volumeDownButton = new FlxButton(8, volumeText.y + volumeText.height + 2, "-", clickVolumeDown);
-        volumeDownButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
-        volumeDownButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
-        add(volumeDownButton);
+		// the volume buttons will be smaller than 'default' buttons
+		volumeDownButton = new FlxButton(8, volumeText.y + volumeText.height + 2, "-", clickVolumeDown);
+		volumeDownButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
+		volumeDownButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
+		add(volumeDownButton);
 
-        volumeUpButton = new FlxButton(FlxG.width - 28, volumeDownButton.y, "+", clickVolumeUp);
-        volumeUpButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
-        volumeUpButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
-        add(volumeUpButton);
+		volumeUpButton = new FlxButton(FlxG.width - 28, volumeDownButton.y, "+", clickVolumeUp);
+		volumeUpButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
+		volumeUpButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
+		add(volumeUpButton);
         
         volumeBar = new FlxBar(volumeDownButton.x + volumeDownButton.width + 4, volumeDownButton.y, LEFT_TO_RIGHT, Std.int(FlxG.width - 64), Std.int(volumeUpButton.height));
         volumeBar.createFilledBar(0xff464646, FlxColor.WHITE, true, FlxColor.WHITE);
         add(volumeBar);
 
         volumeAmountText = new FlxText(0, 0, 200, (FlxG.sound.volume * 100) + "%", 8);
-        volumeAmountText.alignment = CENTER;
-        volumeAmountText.borderStyle = FlxTextBorderStyle.OUTLINE;
-        volumeAmountText.borderColor = 0xff464646;
-        volumeAmountText.y = volumeBar.y + (volumeBar.height / 2) - (volumeAmountText.height / 2);
-        add(volumeAmountText);
+		volumeAmountText.alignment = CENTER;
+		volumeAmountText.borderStyle = FlxTextBorderStyle.OUTLINE;
+		volumeAmountText.borderColor = 0xff464646;
+		volumeAmountText.y = volumeBar.y + (volumeBar.height / 2) - (volumeAmountText.height / 2);
+		volumeAmountText.screenCenter(FlxAxes.X);
+		add(volumeAmountText);
 
         #if desktop
         fullscreenButton = new FlxButton(0, volumeBar.y + volumeBar.height + 8, FlxG.fullscreen ? "FULLSCREEN" : "WINDOWED", clickFullscreen);
@@ -61,13 +63,19 @@ class OptionsState extends FlxState
         add(fullscreenButton);
         #end
 
-        clearDataButton = new FlxButton((FlxG.width / 2) - 90, FlxG.height - 28, "Clear Data", clickClearData);
+		clearDataButton = new FlxButton(0, FlxG.height - 28, "Clear Data", clickClearData);
         clearDataButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
         add(clearDataButton);
 
-        backButton = new FlxButton((FlxG.width / 2) - 90, FlxG.height - 28, "Back", clickBack);
+		backButton = new FlxButton(0, FlxG.height - 28, "Back", clickBack);
         backButton.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
         add(backButton);
+
+		// center both bottom buttons and offset them so they don't overlap
+		clearDataButton.screenCenter(FlxAxes.X);
+		clearDataButton.x -= 80;
+		backButton.screenCenter(FlxAxes.X);
+		backButton.x += 80;
 
         updateVolume();
 

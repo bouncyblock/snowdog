@@ -50,7 +50,7 @@ class GameOverState extends FlxState
 
         highscoreText = new FlxText(0, (FlxG.height / 2) + 10, 0, "Highscore: " + highscore, 8);
         highscoreText.alignment = CENTER;
-        highscoreText.screenCenter(FlxAxes.Y);
+        highscoreText.screenCenter(FlxAxes.X);
         add(highscoreText);
 
         mainMenuButton = new FlxButton(0, FlxG.height - 32, "Main Menu", switchToMainMenu);

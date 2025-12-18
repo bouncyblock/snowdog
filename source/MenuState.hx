@@ -21,16 +21,18 @@ class MenuState extends FlxState
         titleText.screenCenter(X);
         add(titleText);
 
-        playButton = new FlxButton(0, 0, "Play", clickPlay);
+        playButton = new FlxButton(0, 0, "Start...", clickPlay);
         add(playButton);
         playButton.screenCenter();
 
-        optionsButton = new FlxButton(0, 0, "Options", clickOptions);
-        optionsButton.x = (FlxG.width / 2) + 10;
+        optionsButton = new FlxButton(0, 0, "Minimal Choice", clickOptions);
+        //optionsButton.x = (FlxG.width / 2) + 10;
+        //optionsButton.y = playButton.y + 40;
+        optionsButton.screenCenter(X);
         optionsButton.y = playButton.y + 40;
         add(optionsButton);
 
-        exitButton = new FlxButton(0, 0, "exit", clickExit);
+        exitButton = new FlxButton(0, 0, "Leave", clickExit);
         add(exitButton);
         exitButton.screenCenter(X);
         exitButton.y = playButton.y + 80;
