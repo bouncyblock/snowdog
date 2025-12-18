@@ -31,6 +31,8 @@ class PlayState extends FlxState
 	var ending:Bool;
 	var won:Bool;
 
+	var snow:FlxGroup;
+
 	function placeEntities(entity:EntityData) // spawning entities on the map where it was defined in Ogmo Editor
 	{
 		var x = entity.x;
@@ -114,12 +116,49 @@ class PlayState extends FlxState
 			FlxG.sound.playMusic(AssetPaths.something__ogg, 1, true);
 		}
 
+		// create snow effect
+		snow = new FlxGroup();
+		for (i in 0...25)
+		{
+			var size = Std.int(Math.random() * 3) + 2;
+			var sx = Math.random() * FlxG.width;
+			var sy = Math.random() * FlxG.height;
+			var s = new FlxSprite(sx, sy);
+			s.makeGraphic(size, size, FlxColor.WHITE);
+			s.scrollFactor.set(0, 0);
+			var vx = (Math.random() * 40 + 20) * (Math.random() > 0.5 ? 1 : -1);
+			var vy = Math.random() * 40 + 30;
+			s.velocity.set(vx, vy);
+
+			snow.add(s);
+		}
+		add(snow);
+
 		super.create();
 	}
 
 	override public function update(elapsed:Float) // the main loop of this scene (not the game, that's handled in main.hx?)
 	{
 		super.update(elapsed);
+		for (flake in snow.members)
+		{
+			if (flake == null)
+				continue;
+
+			var sprite = cast(flake, FlxSprite);
+
+			if (sprite.y > FlxG.height + 8 || sprite.x < -16 || sprite.x > FlxG.width + 16)
+			{
+				sprite.x = Math.random() * FlxG.width;
+				sprite.y = -(Math.random() * 20);
+				var vx = (Math.random() * 40 + 20) * (Math.random() > 0.5 ? 1 : -1);
+				var vy = Math.random() * 40 + 30;
+				sprite.velocity.set(vx, vy);
+				var size = Std.int(Math.random() * 3) + 2;
+				sprite.makeGraphic(size, size, FlxColor.WHITE);
+			}
+		}
+
 
 		// ensure music is playing (guard in case load failed)
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing) {
